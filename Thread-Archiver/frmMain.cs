@@ -26,7 +26,8 @@ namespace Thread_Archiver
             DialogResult res = this.folderBrowserDialog1.ShowDialog();
             if (res.Equals(DialogResult.OK))
             {
-                txtImageFolder.Text = folderBrowserDialog1.SelectedPath;                
+                // We need an extra \ at the end because Windows is fucking stupid
+                txtImageFolder.Text = folderBrowserDialog1.SelectedPath + "\\";                
             }
         }
 
