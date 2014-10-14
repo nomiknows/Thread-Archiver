@@ -1,0 +1,9 @@
+c:\users\dave\documents\visual studio 2010\Projects\Thread-Archiver\Thread-Archiver\bin\Debug\Thread-Archiver.exe
+c:\users\dave\documents\visual studio 2010\Projects\Thread-Archiver\Thread-Archiver\bin\Debug\Thread-Archiver.pdb
+c:\users\dave\documents\visual studio 2010\Projects\Thread-Archiver\Thread-Archiver\obj\x86\Debug\Thread_Archiver.Properties.Resources.resources
+c:\users\dave\documents\visual studio 2010\Projects\Thread-Archiver\Thread-Archiver\obj\x86\Debug\Thread-Archiver.csproj.GenerateResource.Cache
+c:\users\dave\documents\visual studio 2010\Projects\Thread-Archiver\Thread-Archiver\obj\x86\Debug\Thread-Archiver.exe
+c:\users\dave\documents\visual studio 2010\Projects\Thread-Archiver\Thread-Archiver\obj\x86\Debug\Thread-Archiver.pdb
+c:\users\dave\documents\visual studio 2010\Projects\Thread-Archiver\Thread-Archiver\obj\x86\Debug\Thread_Archiver.frmMain.resources
+c:\users\dave\documents\visual studio 2010\Projects\Thread-Archiver\Thread-Archiver\bin\Debug\Newtonsoft.Json.dll
+c:\users\dave\documents\visual studio 2010\Projects\Thread-Archiver\Thread-Archiver\obj\x86\Debug\Thread-Archiver.csprojResolveAssemblyReference.cache
