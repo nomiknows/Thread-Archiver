@@ -6,6 +6,7 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using System.Net;
 using System.Web;
+using System.Windows.Forms;
 using System.IO;
 namespace Thread_Archiver
 {
@@ -17,6 +18,10 @@ namespace Thread_Archiver
     /// </summary>
     public class ThreadDownloader
     {
+        // 4Chan CDN Names
+        private const string CDN_IMG = "https://i.4cdn.org";
+        private const string CDN_THR = "https://a.4cdn.org";
+
         private string threadURL;
         public Thread t;
 
@@ -27,10 +32,6 @@ namespace Thread_Archiver
         public ThreadDownloader(string url)
         {
             threadURL = url;
-            WebClient client = new WebClient();
-            url = url.Replace("boards.4chan", "a.4cdn");
-            string s = client.DownloadString(url + ".json");
-            t = JsonConvert.DeserializeObject<Thread>(s);
         }
 
         /// <summary>
@@ -39,17 +40,34 @@ namespace Thread_Archiver
         /// <param name="directory">Directory to save downloaded images to.</param>
         public void DownloadImages(string directory)
         {
-            WebClient wb = new WebClient();
-
-            // There's two '/' in the url
-            string board = threadURL.Split('/')[3];
-            foreach (Post p in t.Posts)
+            try 
             {
-                // Download the original file
-                if (p.filename != null && !File.Exists(directory + p.filename + p.ext))
+                // Obtain thread info
+                string board = threadURL.Split('/')[3];
+                string threadNum = threadURL.Split('/')[5];
+
+                // Download JSON string and deserialize it
+                WebClient wb = new WebClient();
+                string jsonData = wb.DownloadString(CDN_THR + "/" + board + "/thread/" + threadNum + ".json");
+                Thread thread = JsonConvert.DeserializeObject<Thread>(jsonData);
+
+                // Save images with original filename
+                foreach (Post p in thread.Posts)
                 {
-                    wb.DownloadFile("https://i.4cdn.org/" + board + "/" + p.tim + p.ext, directory + p.filename + p.ext);
+                    // Download the original file
+                    if (p.filename != null && !File.Exists(directory + p.filename + p.ext))
+                    {
+                        wb.DownloadFile(CDN_IMG + "/" + board + "/" + p.tim + p.ext, directory + p.filename + p.ext);
+                    }
                 }
+
+                // Offer a notification
+                MessageBox.Show("Download Complete!", "You Got Images!");
+            } 
+            catch (Exception e)
+            {
+                MessageBox.Show("There was an error m8. You're link was probably bad if it's a 404.\n" + e.Message + "\n" + e.StackTrace, "Something went horribly wrong.");
+                return;
             }
         }
     }
