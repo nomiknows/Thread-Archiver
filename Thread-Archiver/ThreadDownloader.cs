@@ -22,6 +22,9 @@ namespace Thread_Archiver
         private const string CDN_IMG = "https://i.4cdn.org";
         private const string CDN_THR = "https://a.4cdn.org";
 
+        // Illegal characters in Windows Filenames
+        private static char[] ILLEGAL_CHARS = Path.GetInvalidFileNameChars();
+
         private string threadURL;
         public Thread t;
 
@@ -34,6 +37,14 @@ namespace Thread_Archiver
             threadURL = url;
         }
 
+        private string filterFilename(string filename)
+        {
+            foreach (char c in ILLEGAL_CHARS)
+            {
+                filename = filename.Replace(c.ToString(), "");
+            }
+            return filename;
+        }
         /// <summary>
         /// Downloads all of the images in a thread.
         /// </summary>
@@ -42,9 +53,13 @@ namespace Thread_Archiver
         {
             try 
             {
-                // Obtain thread info
-                string board = threadURL.Split('/')[3];
-                string threadNum = threadURL.Split('/')[5];
+                // Get rid of junk
+                if (threadURL.Contains("http://"))
+                    threadURL = threadURL.Replace("http://", "");
+
+                // Find info
+                string board = threadURL.Split('/')[1];
+                string threadNum = threadURL.Split('/')[3];
 
                 // Download JSON string and deserialize it
                 WebClient wb = new WebClient();
@@ -57,7 +72,8 @@ namespace Thread_Archiver
                     // Download the original file
                     if (p.filename != null && !File.Exists(directory + p.filename + p.ext))
                     {
-                        wb.DownloadFile(CDN_IMG + "/" + board + "/" + p.tim + p.ext, directory + p.filename + p.ext);
+                        
+                        wb.DownloadFile(CDN_IMG + "/" + board + "/" + p.tim + p.ext, directory + filterFilename(p.filename + p.ext));
                     }
                 }
 
